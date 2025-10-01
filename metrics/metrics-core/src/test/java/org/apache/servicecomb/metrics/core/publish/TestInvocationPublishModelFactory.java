@@ -30,6 +30,7 @@ import org.apache.servicecomb.metrics.core.InvocationMetersInitializer;
 import org.apache.servicecomb.metrics.core.publish.model.DefaultPublishModel;
 import org.apache.servicecomb.swagger.invocation.InvocationType;
 import org.apache.servicecomb.swagger.invocation.Response;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.core.env.Environment;
@@ -39,8 +40,6 @@ import com.google.common.eventbus.EventBus;
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
 import io.vertx.core.json.Json;
-
-import org.skyscreamer.jsonassert.JSONAssert;
 
 public class TestInvocationPublishModelFactory {
   EventBus eventBus = new EventBus();
@@ -61,12 +60,12 @@ public class TestInvocationPublishModelFactory {
   Environment environment = Mockito.mock(Environment.class);
 
   @Test
-  public void createDefaultPublishModel() throws Exception {
+  public void createDefaultPublishModel() {
     Mockito.when(environment.getProperty(METRICS_WINDOW_TIME, int.class, DEFAULT_METRICS_WINDOW_TIME))
-        .thenReturn(DEFAULT_METRICS_WINDOW_TIME);
+            .thenReturn(DEFAULT_METRICS_WINDOW_TIME);
     Mockito.when(environment.getProperty(
-            CONFIG_LATENCY_DISTRIBUTION_MIN_SCOPE_LEN, int.class, 7))
-        .thenReturn(7);
+                    CONFIG_LATENCY_DISTRIBUTION_MIN_SCOPE_LEN, int.class, 7))
+            .thenReturn(7);
     Mockito.when(environment.getProperty(CONFIG_LATENCY_DISTRIBUTION, String.class)).thenReturn("0,1,100");
 
     invocationMetersInitializer.init(meterRegistry, eventBus, new MetricsBootstrapConfig(environment));
@@ -171,8 +170,8 @@ public class TestInvocationPublishModelFactory {
             }
           }
         """;
-    JSONAssert.assertEquals(Json.encodePrettily(Json.decodeValue(expect, Object.class)),
-        Json.encodePrettily(model.getConsumer()), false);
+    Assertions.assertEquals(Json.encodePrettily(Json.decodeValue(expect, Object.class)),
+            Json.encodePrettily(model.getConsumer()));
 
     expect = """
         {
@@ -270,8 +269,8 @@ public class TestInvocationPublishModelFactory {
           }
         }
         """;
-    JSONAssert.assertEquals(Json.encodePrettily(Json.decodeValue(expect, Object.class)),
-        Json.encodePrettily(model.getProducer()), false);
+    Assertions.assertEquals(Json.encodePrettily(Json.decodeValue(expect, Object.class)),
+            Json.encodePrettily(model.getProducer()));
   }
 
   protected void prepareInvocation() {
