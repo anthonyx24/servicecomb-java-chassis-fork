@@ -62,10 +62,10 @@ public class TestInvocationPublishModelFactory {
   @Test
   public void createDefaultPublishModel() {
     Mockito.when(environment.getProperty(METRICS_WINDOW_TIME, int.class, DEFAULT_METRICS_WINDOW_TIME))
-        .thenReturn(DEFAULT_METRICS_WINDOW_TIME);
+            .thenReturn(DEFAULT_METRICS_WINDOW_TIME);
     Mockito.when(environment.getProperty(
-            CONFIG_LATENCY_DISTRIBUTION_MIN_SCOPE_LEN, int.class, 7))
-        .thenReturn(7);
+                    CONFIG_LATENCY_DISTRIBUTION_MIN_SCOPE_LEN, int.class, 7))
+            .thenReturn(7);
     Mockito.when(environment.getProperty(CONFIG_LATENCY_DISTRIBUTION, String.class)).thenReturn("0,1,100");
 
     invocationMetersInitializer.init(meterRegistry, eventBus, new MetricsBootstrapConfig(environment));
@@ -171,7 +171,7 @@ public class TestInvocationPublishModelFactory {
           }
         """;
     Assertions.assertEquals(Json.encodePrettily(Json.decodeValue(expect, Object.class)),
-        Json.encodePrettily(model.getConsumer()));
+            Json.encodePrettily(model.getConsumer()));
 
     expect = """
         {
@@ -270,7 +270,7 @@ public class TestInvocationPublishModelFactory {
         }
         """;
     Assertions.assertEquals(Json.encodePrettily(Json.decodeValue(expect, Object.class)),
-        Json.encodePrettily(model.getProducer()));
+            Json.encodePrettily(model.getProducer()));
   }
 
   protected void prepareInvocation() {
